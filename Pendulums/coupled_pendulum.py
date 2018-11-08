@@ -3,13 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def run():
-    theta1_0 = np.deg2rad(40)
+    theta1_0 = np.deg2rad(20)
     theta2_0 = np.deg2rad(0)
 
     sol = solve_ivp(cp_pen, [0, 20], [0, theta1_0, 0, theta2_0], rtol=1e-6)
 
     plt.plot(sol.t, np.rad2deg(sol.y[1,:]),".-")
     plt.plot(sol.t, np.rad2deg(sol.y[3,:]),".-")
+    plt.legend(["Pendulum 1","Pendulum 2"])
     plt.show()
 
 def cp_pen(t, z):
@@ -22,8 +23,8 @@ def cp_pen(t, z):
     theta2 = z[3]
 
     x0 = 100e-3 # Neutral length of elastic band mm
-    b = 550e-3 # Seperation distance mm
-    k = 50 # Elastic band stiffness N/m
+    b = 350e-3 # Seperation distance mm
+    k = 16 # Elastic band stiffness N/m
     a1 = 400e-3 #mm
     a2 = 450e-3 #mm
     l1 = 600e-3 #mm
@@ -45,7 +46,7 @@ def cp_pen(t, z):
     alpha2 = beta - theta2
 
     # Calculate the spring force
-    Fk = k*(x0-x)
+    Fk = k*(x-x0)
     Fg1 = m1*g
     Fg2 = m2*g
 
